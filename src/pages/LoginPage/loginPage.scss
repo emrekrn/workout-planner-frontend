@@ -6,22 +6,30 @@
 	.left-part,
 	.right-part {
 		height: 100%;
-		width: 50%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
 	}
 
 	.left-part {
 		position: relative;
 		.main-image {
+			height: 100%;
 			width: 100%;
 			opacity: 0.2;
 			position: absolute;
+			object-fit: cover;
 		}
 
 		.site-name {
+			width: 70%;
 			z-index: 1;
+		}
+	}
+
+	.right-part {
+		position: relative;
+		.mobile-site-name {
+			width: 80%;
+			position: absolute;
+			top: 5rem;
 		}
 	}
 }

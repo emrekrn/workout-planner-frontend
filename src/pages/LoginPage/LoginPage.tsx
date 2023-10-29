@@ -1,15 +1,19 @@
 import './loginPage.scss';
 import mainImg from '../../images/mainimg.jpg';
 import siteName from '../../images/workoutplanner.png';
+import Register from '../../components/Register/Register';
 
 const LoginPage = () => {
 	return (
-		<div className='login-page bg-primary'>
-			<div className='left-part'>
+		<div className='login-page bg-primary row m-0'>
+			<div className='left-part d-none d-md-flex align-items-center justify-content-center col-md-6'>
 				<img className='main-image' src={mainImg} />
 				<img className='site-name' src={siteName} />
 			</div>
-			<div className='right-part bg-main'>test</div>
+			<div className='right-part d-flex align-items-center justify-content-center col-12 col-md-6 bg-main'>
+				<img className='mobile-site-name d-md-none' src={siteName} />
+				<Register />
+			</div>
 		</div>
 	);
 };
