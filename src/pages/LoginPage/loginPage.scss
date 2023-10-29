@@ -1,0 +1,27 @@
+.login-page {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+
+	.left-part,
+	.right-part {
+		height: 100%;
+		width: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.left-part {
+		position: relative;
+		.main-image {
+			width: 100%;
+			opacity: 0.2;
+			position: absolute;
+		}
+
+		.site-name {
+			z-index: 1;
+		}
+	}
+}
