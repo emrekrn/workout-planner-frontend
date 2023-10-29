@@ -1,7 +1,7 @@
 import './loginPage.scss';
 import mainImg from '../../images/mainimg.jpg';
 import siteName from '../../images/workoutplanner.png';
-import Register from '../../components/Register/Register';
+import { Outlet } from 'react-router-dom';
 
 const LoginPage = () => {
 	return (
@@ -12,7 +12,7 @@ const LoginPage = () => {
 			</div>
 			<div className='right-part d-flex align-items-center justify-content-center col-12 col-md-6 bg-main'>
 				<img className='mobile-site-name d-md-none' src={siteName} />
-				<Register />
+				<Outlet />
 			</div>
 		</div>
 	);
