@@ -1,0 +1,34 @@
+.start-page {
+	height: 100vh;
+	width: 100vw;
+
+	.nav-bar {
+		min-height: 7vh;
+		.page-icon {
+			width: 11rem;
+		}
+	}
+	.nav-bar-large {
+		display: none;
+	}
+
+	.content-field {
+		width: 100%;
+		height: 95vh;
+	}
+
+	@media (min-width: 576px) {
+		.nav-bar-large {
+			display: block;
+			min-width: 4rem;
+			height: 100vh;
+			.page-icon {
+				display: none;
+			}
+		}
+		.content-field {
+			width: 100%;
+			height: 100vh;
+		}
+	}
+}
