@@ -24,7 +24,7 @@ const api = axios.create({
 });
 
 export const registerUser = (requestData: RegisterRequest) => {
-	console.log(requestData);
+	api.post('/users', requestData);
 };
 
 export const loginUser = (requestData: LoginRequest) => {
