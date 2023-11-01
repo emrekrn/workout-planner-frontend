@@ -16,7 +16,7 @@ const UserAuthenticationContextProvider = ({
 	children: ReactElement;
 }) => {
 	const value = {
-		userToken: 'null',
+		userToken: 'tes',
 		userId: 1,
 	};
 	return (

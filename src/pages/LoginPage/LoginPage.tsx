@@ -8,7 +8,7 @@ import { UserAuthenticationContext } from '../../context/UserAuthenticationConte
 const LoginPage = () => {
 	const { userToken } = useContext(UserAuthenticationContext);
 	if (userToken) {
-		return <Navigate to='/dashboard' replace />;
+		return <Navigate to='/' replace />;
 	}
 	return (
 		<div className='login-page bg-primary row m-0'>

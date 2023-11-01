@@ -17,7 +17,7 @@ const DesktopNav = () => {
 	return (
 		<div className='nav-bar-large bg-secondary d-none d-sm-flex flex-column align-items-center justify-content-between pt-5 gap-5'>
 			<div className='nav-top d-flex flex-column align-items-center gap-5'>
-				<a className='nav-icon' href='#'>
+				<a className='nav-icon' href='/'>
 					<OverlayTrigger
 						key='top'
 						placement='right'
@@ -27,7 +27,7 @@ const DesktopNav = () => {
 					</OverlayTrigger>
 					{/* homepage */}
 				</a>
-				<a className='nav-icon' href='#'>
+				<a className='nav-icon' href='my-workouts'>
 					<OverlayTrigger
 						key='top'
 						placement='right'
