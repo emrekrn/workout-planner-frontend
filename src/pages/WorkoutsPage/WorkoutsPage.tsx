@@ -1,7 +1,7 @@
 import React from 'react';
 import './workoutPage.scss';
-import Workout from '../../components/Workout/Workout';
-import WorkoutDetails from '../../components/WorkoutDetails/WorkoutDetails';
+import Workout from '../../components/WorkoutsPage/Workout/Workout';
+import WorkoutDetails from '../../components/WorkoutsPage/WorkoutDetails/WorkoutDetails';
 
 const WorkoutsPage = () => {
 	return (

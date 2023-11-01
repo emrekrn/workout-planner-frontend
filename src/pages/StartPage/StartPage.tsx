@@ -1,8 +1,8 @@
 import React from 'react';
 import './startPage.scss';
 
-import MobileNav from '../../components/MobileNav/MobileNav';
-import DesktopNav from '../../components/DesktopNav/DesktopNav';
+import MobileNav from '../../components/Layout/MobileNav/MobileNav';
+import DesktopNav from '../../components/Layout/DesktopNav/DesktopNav';
 import { Outlet } from 'react-router-dom';
 
 const StartPage = () => {

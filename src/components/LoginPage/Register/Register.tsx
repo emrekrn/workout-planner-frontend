@@ -1,8 +1,8 @@
 import { FormEvent, useState } from 'react';
 import './register.scss';
-import Input from '../InputComponent/Input';
+import Input from '../../InputComponent/Input';
 import { Button } from 'react-bootstrap';
-import { registerUser } from '../../services/api';
+import { registerUser } from '../../../services/api';
 
 const Register = () => {
 	const [firstName, setFirstName] = useState<string>('');

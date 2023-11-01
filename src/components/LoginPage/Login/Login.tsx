@@ -1,8 +1,8 @@
 import React, { FormEvent, useState, useEffect } from 'react';
 import './login.scss';
-import Input from '../InputComponent/Input';
+import Input from '../../InputComponent/Input';
 import { Button } from 'react-bootstrap';
-import { findAllUsers, loginUser } from '../../services/api';
+import { findAllUsers, loginUser } from '../../../services/api';
 
 const Login = () => {
 	const [username, setUsername] = useState<string>('');
