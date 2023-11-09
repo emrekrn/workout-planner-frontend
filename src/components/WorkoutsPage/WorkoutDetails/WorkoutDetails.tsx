@@ -28,7 +28,6 @@ const WorkoutDetails = () => {
 							<span className='text-white'>By name</span>
 						</div>
 						<ExerciseCard />
-						<ExerciseCard />
 					</div>
 				</div>
 			</div>

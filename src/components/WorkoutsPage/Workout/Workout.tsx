@@ -5,11 +5,24 @@ import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-i
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Workout = () => {
-	const [isFavourite, setIsFavourite] = useState<boolean>(true);
+interface WorkoutProps {
+	workoutName: string;
+	workoutCategory: string;
+	isFavourite: boolean;
+	exerciseNumber: number;
+}
+
+const Workout = ({
+	workoutName,
+	workoutCategory,
+	isFavourite,
+	exerciseNumber,
+}: WorkoutProps) => {
+	const [isFavouriteState, setIsFavouriteState] =
+		useState<boolean>(isFavourite);
 
 	const handleFavClick = () => {
-		setIsFavourite((prev) => !prev);
+		setIsFavouriteState((prev) => !prev);
 	};
 	return (
 		<div className='workout-card bg-secondary d-flex align-items-center gap-3'>
@@ -18,12 +31,12 @@ const Workout = () => {
 			</div>
 			<div className='workout-info-field h-100'>
 				<div className='header d-flex align-items-center justify-content-between'>
-					<h4 className='text-white'>[Workout name]</h4>
+					<h4 className='text-white'>{workoutName}</h4>
 					<div
 						className='favourite-btn-field bg-primary d-flex align-items-center justify-content-center'
 						onClick={() => handleFavClick()}
 					>
-						{isFavourite ? (
+						{isFavouriteState ? (
 							<FontAwesomeIcon
 								className='text-white'
 								icon={faBookmarkRegular}
@@ -35,10 +48,10 @@ const Workout = () => {
 				</div>
 				<div className='body d-flex flex-column gap-1 align-items-start '>
 					<div className='body-card bg-primary px-2'>
-						<span className='text-white'>Category</span>
+						<span className='text-white'>{workoutCategory}</span>
 					</div>
 					<div className='body-card bg-primary px-2'>
-						<span className='text-white'>Exercises: 5</span>
+						<span className='text-white'>Exercises: {exerciseNumber}</span>
 					</div>
 				</div>
 			</div>
