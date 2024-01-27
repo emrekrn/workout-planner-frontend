@@ -2,22 +2,28 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import './createWorkoutModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
 import Input from '../../InputComponent/Input';
+import { WorkoutData } from '../../../model/WorkoutDataModel';
+import { createWorkout } from '../../../services/api';
 
 interface CreateWorkoutModalProps {
 	show: boolean;
 	handleClose: () => void;
+	updateStateOnFormSubmit: (workoutData: WorkoutData) => void;
 }
 
 const CreateWorkoutModal = ({ show, handleClose }: CreateWorkoutModalProps) => {
 	const [workoutName, setWorkoutName] = useState<string>('');
 	const [workoutDescription, setWorkoutDescription] = useState<string>('');
+	const [workoutCategory, setWorkoutCategory] = useState<string>('');
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setWorkoutDescription(e.target.value);
 	};
-	const handleSubmit = (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		console.log(workoutName);
 		console.log(workoutDescription);
+		console.log(workoutCategory);
+		createWorkout({ workoutName }).then((response) => response.json());
 	};
 	return (
 		<>
@@ -48,6 +54,13 @@ const CreateWorkoutModal = ({ show, handleClose }: CreateWorkoutModalProps) => {
 								name='Text1'
 								rows={5}
 								onChange={(e) => handleChange(e)}
+							/>
+							<Input
+								id='workoutCategory'
+								labelText='Category'
+								col='col-12'
+								inputType='text'
+								setFunction={setWorkoutCategory}
 							/>
 						</Card.Body>
 						<Card.Footer className='d-flex justify-content-end gap-3'>

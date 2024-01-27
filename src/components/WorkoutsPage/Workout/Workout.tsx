@@ -7,19 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface WorkoutProps {
 	workoutName: string;
-	workoutCategory: string;
-	isFavourite: boolean;
-	exerciseNumber: number;
 }
 
-const Workout = ({
-	workoutName,
-	workoutCategory,
-	isFavourite,
-	exerciseNumber,
-}: WorkoutProps) => {
-	const [isFavouriteState, setIsFavouriteState] =
-		useState<boolean>(isFavourite);
+const Workout = ({ workoutName }: WorkoutProps) => {
+	const [isFavouriteState, setIsFavouriteState] = useState<boolean>(false);
 
 	const handleFavClick = () => {
 		setIsFavouriteState((prev) => !prev);
@@ -37,21 +28,21 @@ const Workout = ({
 						onClick={() => handleFavClick()}
 					>
 						{isFavouriteState ? (
+							<FontAwesomeIcon className='text-white' icon={faBookmarkSolid} />
+						) : (
 							<FontAwesomeIcon
-								className='text-white'
+								className='text-white '
 								icon={faBookmarkRegular}
 							/>
-						) : (
-							<FontAwesomeIcon className='text-white ' icon={faBookmarkSolid} />
 						)}
 					</div>
 				</div>
 				<div className='body d-flex flex-column gap-1 align-items-start '>
 					<div className='body-card bg-primary px-2'>
-						<span className='text-white'>{workoutCategory}</span>
+						<span className='text-white'>[Workout Category]</span>
 					</div>
 					<div className='body-card bg-primary px-2'>
-						<span className='text-white'>Exercises: {exerciseNumber}</span>
+						<span className='text-white'>Exercises: [exerciseNumber]</span>
 					</div>
 				</div>
 			</div>

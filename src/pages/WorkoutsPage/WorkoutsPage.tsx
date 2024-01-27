@@ -12,17 +12,12 @@ const WorkoutsPage = () => {
 	const [workoutDataState, setWorkoutDataState] =
 		useState<WorkoutData[]>(workoutData);
 
-	const workoutJSX = workoutDataState.map(
-		({ id, workoutName, workoutCategory, isFavourite, exerciseNumber }) => (
-			<Workout
-				key={id}
-				workoutName={workoutName}
-				workoutCategory={workoutCategory}
-				isFavourite={isFavourite}
-				exerciseNumber={exerciseNumber}
-			/>
-		)
-	);
+	const updateStateOnFormSubmit = (newWorkoutData: WorkoutData) => {
+		setWorkoutDataState((prev) => [...prev, newWorkoutData]);
+	};
+	const workoutJSX = workoutDataState.map(({ workoutName }) => (
+		<Workout workoutName={workoutName} />
+	));
 
 	const handleShow = () => {
 		setShow(true);
@@ -51,7 +46,11 @@ const WorkoutsPage = () => {
 			<div className='workout-details-field bg-secondary'>
 				<WorkoutDetails />
 			</div>
-			<CreateWorkoutModal show={show} handleClose={handleModalClose} />
+			<CreateWorkoutModal
+				show={show}
+				handleClose={handleModalClose}
+				updateStateOnFormSubmit={updateStateOnFormSubmit}
+			/>
 		</div>
 	);
 };
