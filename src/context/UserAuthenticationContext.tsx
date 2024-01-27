@@ -1,13 +1,17 @@
-import { ReactElement, createContext } from 'react';
+import { ReactElement, createContext, useState } from 'react';
 
 interface IUserAuthenticationContext {
 	userToken: string | null;
+	setUserToken: React.Dispatch<React.SetStateAction<string>>;
 	userId: number | null;
+	setUserId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const UserAuthenticationContext = createContext<IUserAuthenticationContext>({
 	userToken: null,
+	setUserToken: () => {},
 	userId: null,
+	setUserId: () => {},
 });
 
 const UserAuthenticationContextProvider = ({
@@ -15,9 +19,14 @@ const UserAuthenticationContextProvider = ({
 }: {
 	children: ReactElement;
 }) => {
+	const [userToken, setUserToken] = useState<string>('');
+	const [userId, setUserId] = useState<number>(0);
+
 	const value = {
-		userToken: 'tes',
-		userId: 1,
+		userToken: userToken,
+		setUserToken: setUserToken,
+		userId: userId,
+		setUserId: setUserId,
 	};
 	return (
 		<UserAuthenticationContext.Provider value={value}>
