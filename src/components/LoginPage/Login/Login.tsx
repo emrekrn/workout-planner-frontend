@@ -1,20 +1,35 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import './login.scss';
 import Input from '../../InputComponent/Input';
-import { Button } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 import { loginUser } from '../../../services/api';
+import { AxiosError, AxiosResponse } from 'axios';
+import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
 
 const Login = () => {
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [errorMessage, setErrorMessage] = useState('');
+	const { setUserId, setUserToken } = useContext(UserAuthenticationContext);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		const response = await loginUser({
-			email: email,
-			password: password,
-		});
-		console.log(response.data);
+		try {
+			const response: AxiosResponse = await loginUser({
+				email: email,
+				password: password,
+			});
+			if (response.status == 200) {
+				setUserId(response.data.userId);
+				setUserToken(response.data.userId);
+			}
+		} catch (err) {
+			if (err instanceof AxiosError) {
+				if (err.response?.status == 401) {
+					setErrorMessage('Wrong email or wrong password');
+				}
+			}
+		}
 	};
 
 	return (
@@ -41,10 +56,15 @@ const Login = () => {
 					col='col-12'
 					setFunction={setPassword}
 				/>
-				<div className='col-12 d-flex justify-content-center'>
+				<div className='col-12 d-flex flex-column align-items-center'>
 					<Button type='submit' variant='primary' className='w-25'>
 						Log in
 					</Button>
+					{errorMessage && (
+						<Alert className='mt-2' key='danger' variant='danger'>
+							{errorMessage}
+						</Alert>
+					)}
 				</div>
 			</form>
 		</div>
