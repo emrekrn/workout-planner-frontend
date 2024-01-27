@@ -1,8 +1,9 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import './register.scss';
 import Input from '../../InputComponent/Input';
 import { Button } from 'react-bootstrap';
 import { registerUser } from '../../../services/api';
+import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
 
 const Register = () => {
 	const [firstName, setFirstName] = useState<string>('');
@@ -12,10 +13,14 @@ const Register = () => {
 	const [password, setPassword] = useState<string>('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
 
-	const handleSubmit = (e: FormEvent) => {
+	const { setUserToken, setUserId, userId, userToken } = useContext(
+		UserAuthenticationContext
+	);
+
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 
-		registerUser({
+		const response = await registerUser({
 			firstName: firstName,
 			lastName: lastName,
 			username: username,
@@ -23,6 +28,13 @@ const Register = () => {
 			password: password,
 			passwordConfirmation: passwordConfirmation,
 		});
+
+		if (response.status == 200) {
+			setUserId(response.data.userId);
+			setUserToken(response.data.userId);
+		}
+		console.log(userId);
+		console.log(userToken);
 	};
 
 	return (
@@ -81,8 +93,8 @@ const Register = () => {
 				/>
 
 				<div className='col-12 d-flex justify-content-center'>
-					<Button type='submit' variant='primary' className='w-25'>
-						Log in
+					<Button type='submit' variant='primary' className='w-50'>
+						Create an Account
 					</Button>
 				</div>
 			</form>

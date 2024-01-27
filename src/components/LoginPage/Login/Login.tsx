@@ -1,19 +1,20 @@
-import React, { FormEvent, useState, useEffect } from 'react';
+import React, { FormEvent, useState } from 'react';
 import './login.scss';
 import Input from '../../InputComponent/Input';
 import { Button } from 'react-bootstrap';
-import { findAllUsers, loginUser } from '../../../services/api';
+import { loginUser } from '../../../services/api';
 
 const Login = () => {
-	const [username, setUsername] = useState<string>('');
+	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
-	const handleSubmit = (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		loginUser({
-			username: username,
+		const response = await loginUser({
+			email: email,
 			password: password,
 		});
+		console.log(response.data);
 	};
 
 	return (
@@ -27,11 +28,11 @@ const Login = () => {
 			</p>
 			<form onSubmit={handleSubmit} noValidate>
 				<Input
-					labelText='Username'
-					id='username'
+					labelText='Email'
+					id='email'
 					inputType='text'
 					col='col-12'
-					setFunction={setUsername}
+					setFunction={setEmail}
 				/>
 				<Input
 					labelText='Password '

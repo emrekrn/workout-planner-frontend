@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { WorkoutData } from '../model/WorkoutDataModel';
 
 interface RegisterRequest {
 	firstName: string;
@@ -9,7 +10,7 @@ interface RegisterRequest {
 	passwordConfirmation: string;
 }
 interface LoginRequest {
-	username: string;
+	email: string;
 	password: string;
 }
 
@@ -24,9 +25,13 @@ const api = axios.create({
 });
 
 export const registerUser = (requestData: RegisterRequest) => {
-	api.post('/users', requestData);
+	return api.post('/register', requestData);
 };
 
 export const loginUser = (requestData: LoginRequest) => {
-	console.log(requestData);
+	return api.post('/login', requestData);
+};
+
+export const createWorkout = async (requestData: WorkoutData) => {
+	return api.post('/workouts', requestData);
 };
