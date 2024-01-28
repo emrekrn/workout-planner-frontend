@@ -2,9 +2,10 @@ import { ReactElement, createContext, useState } from 'react';
 
 interface IUserAuthenticationContext {
 	userToken: string | null;
-	setUserToken: React.Dispatch<React.SetStateAction<string>>;
+	setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
 	userId: number | null;
-	setUserId: React.Dispatch<React.SetStateAction<number>>;
+	setUserId: React.Dispatch<React.SetStateAction<number | null>>;
+	handleLogout: () => void;
 }
 
 const UserAuthenticationContext = createContext<IUserAuthenticationContext>({
@@ -12,6 +13,7 @@ const UserAuthenticationContext = createContext<IUserAuthenticationContext>({
 	setUserToken: () => {},
 	userId: null,
 	setUserId: () => {},
+	handleLogout: () => {},
 });
 
 const UserAuthenticationContextProvider = ({
@@ -19,14 +21,20 @@ const UserAuthenticationContextProvider = ({
 }: {
 	children: ReactElement;
 }) => {
-	const [userToken, setUserToken] = useState<string>('');
-	const [userId, setUserId] = useState<number>(0);
+	const [userToken, setUserToken] = useState<string | null>(null);
+	const [userId, setUserId] = useState<number | null>(null);
+
+	const handleLogout = (): void => {
+		setUserToken(null);
+		setUserId(null);
+	};
 
 	const value = {
-		userToken: userToken,
-		setUserToken: setUserToken,
-		userId: userId,
-		setUserId: setUserId,
+		userToken,
+		setUserToken,
+		userId,
+		setUserId,
+		handleLogout,
 	};
 	return (
 		<UserAuthenticationContext.Provider value={value}>

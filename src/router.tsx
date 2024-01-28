@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
 				element: <Dashboard />,
 			},
 			{
-				path: 'my-workouts',
+				path: '/my-workouts',
 				element: <WorkoutsPage />,
 			},
 		],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './desktopNav.scss';
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -12,12 +12,16 @@ import {
 	faHouse,
 	faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
 
 const DesktopNav = () => {
+	const { handleLogout } = useContext(UserAuthenticationContext);
+
 	return (
 		<div className='nav-bar-large bg-secondary d-none d-sm-flex flex-column align-items-center justify-content-between pt-5 gap-5'>
 			<div className='nav-top d-flex flex-column align-items-center gap-5'>
-				<a className='nav-icon' href='/'>
+				<Link className='nav-icon' to='/'>
 					<OverlayTrigger
 						key='top'
 						placement='right'
@@ -26,8 +30,8 @@ const DesktopNav = () => {
 						<FontAwesomeIcon icon={faHouse} className='text-white' size='xl' />
 					</OverlayTrigger>
 					{/* homepage */}
-				</a>
-				<a className='nav-icon' href='my-workouts'>
+				</Link>
+				<Link className='nav-icon' to='my-workouts'>
 					<OverlayTrigger
 						key='top'
 						placement='right'
@@ -40,8 +44,8 @@ const DesktopNav = () => {
 						/>
 					</OverlayTrigger>
 					{/* workouts */}
-				</a>
-				<a className='nav-icon' href='#'>
+				</Link>
+				<Link className='nav-icon' to='#'>
 					<OverlayTrigger
 						key='top'
 						placement='right'
@@ -54,10 +58,10 @@ const DesktopNav = () => {
 						/>
 						{/* History */}
 					</OverlayTrigger>
-				</a>
+				</Link>
 			</div>
 			<div className='nav-bottom d-flex flex-column align-items-center gap-5 mb-5'>
-				<a className='nav-icon' href='#'>
+				<Link className='nav-icon' to='#'>
 					<OverlayTrigger
 						key='top'
 						placement='right'
@@ -66,8 +70,8 @@ const DesktopNav = () => {
 						<FontAwesomeIcon icon={faGear} className='text-white' size='xl' />
 					</OverlayTrigger>
 					{/* workouts */}
-				</a>
-				<a className='nav-icon' href='#'>
+				</Link>
+				<div className='nav-icon' onClick={() => handleLogout()}>
 					<OverlayTrigger
 						key='top'
 						placement='right'
@@ -80,7 +84,7 @@ const DesktopNav = () => {
 						/>
 					</OverlayTrigger>
 					{/* History */}
-				</a>
+				</div>
 			</div>
 		</div>
 	);
