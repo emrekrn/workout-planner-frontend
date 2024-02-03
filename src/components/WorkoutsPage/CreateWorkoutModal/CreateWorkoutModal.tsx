@@ -5,19 +5,17 @@ import Input from '../../InputComponent/Input';
 import { WorkoutData } from '../../../model/WorkoutDataModel';
 import { createWorkout } from '../../../services/api';
 import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
-import { Prev } from 'react-bootstrap/esm/PageItem';
-import { workoutData } from '../../../utils/testData/data';
 
 interface CreateWorkoutModalProps {
 	show: boolean;
 	handleClose: () => void;
-	updateStateOnFormSubmit: (workoutData: WorkoutData) => void;
+	updateWorkoudDataStateOnFormSubmit: (workoutData: WorkoutData) => void;
 }
 
 const CreateWorkoutModal = ({
 	show,
 	handleClose,
-	updateStateOnFormSubmit,
+	updateWorkoudDataStateOnFormSubmit,
 }: CreateWorkoutModalProps) => {
 	const [workoutName, setWorkoutName] = useState('');
 	const [workoutCategory, setWorkoutCategory] = useState('');
@@ -29,7 +27,7 @@ const CreateWorkoutModal = ({
 			const response = await createWorkout({ workoutName, userId: userId! });
 			console.log(response);
 			if (response.status == 201) {
-				updateStateOnFormSubmit(response.data);
+				updateWorkoudDataStateOnFormSubmit(response.data);
 			} else {
 				console.log(
 					`Workout couldn't be created.Status code :${response.status}`

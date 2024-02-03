@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './workout.scss';
 import workoutImg from '../../../images/workout-placeholder.jpg';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
@@ -6,23 +6,24 @@ import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface WorkoutProps {
-	workoutName: string | null;
-	isSelected: boolean;
-	selectWorkout: () => void;
+	id: number;
+	workoutName: string;
+	isFavourite: boolean;
+	updateWorkoutIfFavourite: (id: number) => void;
 }
 
-const Workout = ({ workoutName, isSelected, selectWorkout }: WorkoutProps) => {
-	const [isFavouriteState, setIsFavouriteState] = useState(false);
-
-	const handleFavClick = () => {
-		setIsFavouriteState((prev) => !prev);
-	};
+const Workout = ({
+	id,
+	workoutName,
+	isFavourite,
+	updateWorkoutIfFavourite,
+}: WorkoutProps) => {
 	return (
 		<div
 			className={`workout-card d-flex align-items-center gap-3 ${
-				isSelected ? 'selected' : 'bg-secondary'
+				isFavourite ? 'selected' : 'bg-secondary'
 			}`}
-			onClick={() => selectWorkout}
+			onClick={() => {}}
 		>
 			<div className='workout-image-container p-1'>
 				<img className='workout-image' src={workoutImg} />
@@ -32,9 +33,9 @@ const Workout = ({ workoutName, isSelected, selectWorkout }: WorkoutProps) => {
 					<h4 className='text-white'>{workoutName}</h4>
 					<div
 						className='favourite-btn-field bg-primary d-flex align-items-center justify-content-center'
-						onClick={() => handleFavClick()}
+						onClick={() => updateWorkoutIfFavourite(id)}
 					>
-						{isFavouriteState ? (
+						{isFavourite ? (
 							<FontAwesomeIcon className='text-white' icon={faBookmarkSolid} />
 						) : (
 							<FontAwesomeIcon
