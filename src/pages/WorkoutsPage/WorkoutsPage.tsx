@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useId, useState } from 'react';
 import './workoutPage.scss';
 import Workout from '../../components/WorkoutsPage/Workout/Workout';
 import WorkoutDetails from '../../components/WorkoutsPage/WorkoutDetails/WorkoutDetails';
 import { Button } from 'react-bootstrap';
 import CreateWorkoutModal from '../../components/WorkoutsPage/CreateWorkoutModal/CreateWorkoutModal';
 import { WorkoutData } from '../../model/WorkoutDataModel';
-import { workoutData } from '../../utils/testData/data';
+import { getWorkoutsByUserId } from '../../services/api';
+import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
+import { AxiosResponse } from 'axios';
 
 const WorkoutsPage = () => {
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
-	const [workoutDataState, setWorkoutDataState] =
-		useState<WorkoutData[]>(workoutData);
+	const [workoutDataState, setWorkoutDataState] = useState<WorkoutData[]>([]);
 	const [isSelected, setIsSelected] = useState(false);
+	const { userId } = useContext(UserAuthenticationContext);
 
 	const updateStateOnFormSubmit = (newWorkoutData: WorkoutData) => {
 		setWorkoutDataState((prev) => [...prev, newWorkoutData]);
 	};
-	const workoutsElement = workoutDataState.map(({ workoutName }) => (
+
+	useEffect(() => {
+		const getWorkoutsOfUser = (): Promise<AxiosResponse> => {
+			return getWorkoutsByUserId(userId!);
+		};
+		getWorkoutsOfUser()
+			.then((response) => {
+				setWorkoutDataState(response.data);
+			})
+			.catch((e) => console.log(e));
+	});
+
+	const workoutsElement = workoutDataState.map((workout) => (
 		<Workout
-			workoutName={workoutName}
+			key={workout.workoutId}
+			workoutName={workout.workoutName}
 			selectWorkout={() => handleSelectWorkout}
 			isSelected={isSelected}
 		/>

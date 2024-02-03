@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { CreateWorkoutRequest } from '../model/WorkoutDataModel';
 
 interface RegisterRequest {
@@ -30,6 +30,10 @@ export const registerUser = (requestData: RegisterRequest) => {
 
 export const loginUser = (requestData: LoginRequest) => {
 	return api.post('/login', requestData);
+};
+
+export const getWorkoutsByUserId = (userId: number): Promise<AxiosResponse> => {
+	return api.get(`/workouts/get-workouts/${userId}`);
 };
 
 export const createWorkout = (requestData: CreateWorkoutRequest) => {

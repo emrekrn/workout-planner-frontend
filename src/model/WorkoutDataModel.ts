@@ -1,5 +1,6 @@
 export interface WorkoutData {
-	workoutName: string | null;
+	workoutId: number;
+	workoutName: string;
 }
 
 export interface CreateWorkoutRequest {
