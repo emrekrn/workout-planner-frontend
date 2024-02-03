@@ -3,6 +3,13 @@
 	min-height: 10rem;
 	border-radius: 1rem;
 	padding: 1rem;
+	&:hover {
+		cursor: pointer;
+	}
+
+	&.selected {
+		background-color: #777777;
+	}
 
 	.workout-image-container {
 		width: 35%;

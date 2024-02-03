@@ -5,7 +5,9 @@
 	.workout-details-field {
 		width: 50%;
 		height: 100%;
-		overflow-y: scroll;
 		padding-bottom: 2rem;
+	}
+	.workouts-field {
+		overflow: scroll;
 	}
 }

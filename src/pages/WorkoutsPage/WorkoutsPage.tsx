@@ -8,47 +8,58 @@ import { WorkoutData } from '../../model/WorkoutDataModel';
 import { workoutData } from '../../utils/testData/data';
 
 const WorkoutsPage = () => {
-	const [show, setShow] = useState<boolean>(false);
+	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
 	const [workoutDataState, setWorkoutDataState] =
 		useState<WorkoutData[]>(workoutData);
+	const [isSelected, setIsSelected] = useState(false);
 
 	const updateStateOnFormSubmit = (newWorkoutData: WorkoutData) => {
 		setWorkoutDataState((prev) => [...prev, newWorkoutData]);
 	};
-	const workoutJSX = workoutDataState.map(({ workoutName }) => (
-		<Workout workoutName={workoutName} />
+	const workoutsElement = workoutDataState.map(({ workoutName }) => (
+		<Workout
+			workoutName={workoutName}
+			selectWorkout={() => handleSelectWorkout}
+			isSelected={isSelected}
+		/>
 	));
 
-	const handleShow = () => {
-		setShow(true);
+	const handleSelectWorkout = (): void => {
+		setIsSelected(true);
 	};
 
-	const handleModalClose = () => {
-		setShow(false);
+	const handleShowCreateWorkoutModal = () => {
+		setShowCreateWorkoutModal(true);
+	};
+
+	const handleCloseCreateWorkoutModal = () => {
+		setShowCreateWorkoutModal(false);
 	};
 
 	return (
 		<div className='workout-page d-flex'>
-			<div className='workout-cards-field d-flex flex-column align-items-center pt-5 gap-4'>
+			<div className='workout-cards-field d-flex flex-column align-items-center pt-5'>
 				<div className='workout-cards-field-header w-100 d-flex align-items-center justify-content-between'>
-					<h1 className='ms-5 mb-3 text-white'>My Workouts</h1>
+					<h1 className='ms-4 text-white'>My Workouts</h1>
 					<Button
 						variant='secondary'
 						className='me-5'
-						onClick={handleShow}
+						onClick={handleShowCreateWorkoutModal}
 						data-bs-theme='light'
 					>
 						+
 					</Button>
 				</div>
-				{workoutJSX}
+				<div className='workouts-field d-flex flex-column align-items-center gap-3 mt-3'>
+					{workoutsElement}
+				</div>
 			</div>
 			<div className='workout-details-field bg-secondary'>
 				<WorkoutDetails />
 			</div>
 			<CreateWorkoutModal
-				show={show}
-				handleClose={handleModalClose}
+				show={showCreateWorkoutModal}
+				handleClose={handleCloseCreateWorkoutModal}
 				updateStateOnFormSubmit={updateStateOnFormSubmit}
 			/>
 		</div>

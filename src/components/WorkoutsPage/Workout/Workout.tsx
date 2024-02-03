@@ -6,17 +6,24 @@ import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface WorkoutProps {
-	workoutName: string;
+	workoutName: string | null;
+	isSelected: boolean;
+	selectWorkout: () => void;
 }
 
-const Workout = ({ workoutName }: WorkoutProps) => {
-	const [isFavouriteState, setIsFavouriteState] = useState<boolean>(false);
+const Workout = ({ workoutName, isSelected, selectWorkout }: WorkoutProps) => {
+	const [isFavouriteState, setIsFavouriteState] = useState(false);
 
 	const handleFavClick = () => {
 		setIsFavouriteState((prev) => !prev);
 	};
 	return (
-		<div className='workout-card bg-secondary d-flex align-items-center gap-3'>
+		<div
+			className={`workout-card d-flex align-items-center gap-3 ${
+				isSelected ? 'selected' : 'bg-secondary'
+			}`}
+			onClick={() => selectWorkout}
+		>
 			<div className='workout-image-container p-1'>
 				<img className='workout-image' src={workoutImg} />
 			</div>
