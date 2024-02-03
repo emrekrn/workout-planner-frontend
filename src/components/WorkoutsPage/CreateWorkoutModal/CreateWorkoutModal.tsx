@@ -1,9 +1,10 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import './createWorkoutModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
 import Input from '../../InputComponent/Input';
 import { WorkoutData } from '../../../model/WorkoutDataModel';
 import { createWorkout } from '../../../services/api';
+import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
 
 interface CreateWorkoutModalProps {
 	show: boolean;
@@ -12,18 +13,18 @@ interface CreateWorkoutModalProps {
 }
 
 const CreateWorkoutModal = ({ show, handleClose }: CreateWorkoutModalProps) => {
-	const [workoutName, setWorkoutName] = useState<string>('');
-	const [workoutDescription, setWorkoutDescription] = useState<string>('');
-	const [workoutCategory, setWorkoutCategory] = useState<string>('');
-	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-		setWorkoutDescription(e.target.value);
-	};
+	const [workoutName, setWorkoutName] = useState('');
+	const [workoutCategory, setWorkoutCategory] = useState('');
+	const { userId } = useContext(UserAuthenticationContext);
+
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(workoutName);
-		console.log(workoutDescription);
-		console.log(workoutCategory);
-		createWorkout({ workoutName }).then((response) => response.json());
+		try {
+			const response = await createWorkout({ workoutName, userId: userId! });
+			console.log(response);
+		} catch (err) {
+			console.log(err);
+		}
 	};
 	return (
 		<>
@@ -35,7 +36,7 @@ const CreateWorkoutModal = ({ show, handleClose }: CreateWorkoutModalProps) => {
 				keyboard={true}
 			>
 				<Card className='bg-primary'>
-					<form onSubmit={handleSubmit}>
+					<form onSubmit={handleSubmit} noValidate>
 						<Card.Header as='h3'>Create Workout</Card.Header>
 						<Card.Body>
 							<Input
@@ -44,16 +45,6 @@ const CreateWorkoutModal = ({ show, handleClose }: CreateWorkoutModalProps) => {
 								col='col-12'
 								inputType='text'
 								setFunction={setWorkoutName}
-							/>
-							<label className='mb-1' htmlFor='workout-description'>
-								Description:
-							</label>
-							<textarea
-								id='workout-description'
-								className='workout-description form-control bg-primary border-secondary text-white'
-								name='Text1'
-								rows={5}
-								onChange={(e) => handleChange(e)}
 							/>
 							<Input
 								id='workoutCategory'

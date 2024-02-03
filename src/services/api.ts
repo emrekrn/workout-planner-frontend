@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { WorkoutData } from '../model/WorkoutDataModel';
+import { CreateWorkoutRequest } from '../model/WorkoutDataModel';
 
 interface RegisterRequest {
 	firstName: string;
@@ -32,6 +32,6 @@ export const loginUser = (requestData: LoginRequest) => {
 	return api.post('/login', requestData);
 };
 
-export const createWorkout = async (requestData: WorkoutData) => {
-	return api.post('/workouts', requestData);
+export const createWorkout = (requestData: CreateWorkoutRequest) => {
+	return api.post('/workouts/create-workout', requestData);
 };
