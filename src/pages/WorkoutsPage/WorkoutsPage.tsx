@@ -28,7 +28,7 @@ const WorkoutsPage = () => {
 				setWorkoutDataState(response.data);
 			})
 			.catch((e) => console.log(e));
-	});
+	}, []);
 
 	const workoutsElement = workoutDataState.map((workout) => (
 		<Workout
