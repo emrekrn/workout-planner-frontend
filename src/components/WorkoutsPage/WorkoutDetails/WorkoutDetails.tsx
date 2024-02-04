@@ -3,14 +3,18 @@ import './workoutDetails.scss';
 import workoutPlaceholder from '../../../images/workout-placeholder.jpg';
 import ExerciseCard from '../ExerciseCard/ExerciseCard';
 
-const WorkoutDetails = () => {
+interface WorkoutDetailsProps {
+	workoutName: string;
+}
+
+const WorkoutDetails = ({ workoutName }: WorkoutDetailsProps) => {
 	return (
 		<div className='workout-details m-auto d-flex flex-column align-items-center pt-5'>
 			<div className='img-field'>
 				<img className='workout-img' src={workoutPlaceholder} />
 			</div>
 			<div className='workout-content align-self-start'>
-				<h2 className='text-white mt-4'>[Workout name]</h2>
+				<h2 className='text-white mt-4'>{workoutName}</h2>
 				<p className='text-grey'>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
 					assumenda magni voluptatum harum unde fuga neque excepturi

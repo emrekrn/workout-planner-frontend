@@ -13,6 +13,11 @@ import { changeIsFavourite } from '../../services/api';
 const WorkoutsPage = () => {
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
 	const [workoutDataState, setWorkoutDataState] = useState<WorkoutData[]>([]);
+	const [selectedWorkout, setSelectedWorkout] = useState<WorkoutData>(
+		{} as WorkoutData
+	);
+	const [selectedWorkoutId, setSelectedWorkoutId] = useState(0);
+
 	const { userId } = useContext(UserAuthenticationContext);
 
 	const updateWorkoudDataStateOnFormSubmit = (newWorkoutData: WorkoutData) => {
@@ -38,6 +43,11 @@ const WorkoutsPage = () => {
 			}
 		});
 	};
+	const selectWorkout = (id: number) => {
+		setSelectedWorkout(
+			workoutDataState.find((workoutData) => workoutData.workoutId == id)!
+		);
+	};
 
 	useEffect(() => {
 		const getWorkoutsOfUser = (): Promise<AxiosResponse> => {
@@ -57,6 +67,9 @@ const WorkoutsPage = () => {
 			workoutName={workout.workoutName}
 			isFavourite={workout.isFavourite}
 			updateWorkoutIfFavourite={updateWorkoutIfFavourite}
+			selectWorkout={selectWorkout}
+			selectedWorkoutId={selectedWorkoutId}
+			setSelectedWorkoutId={setSelectedWorkoutId}
 		/>
 	));
 
@@ -87,7 +100,9 @@ const WorkoutsPage = () => {
 				</div>
 			</div>
 			<div className='workout-details-field bg-secondary'>
-				<WorkoutDetails />
+				{selectedWorkout && (
+					<WorkoutDetails workoutName={selectedWorkout.workoutName} />
+				)}
 			</div>
 			<CreateWorkoutModal
 				show={showCreateWorkoutModal}

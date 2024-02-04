@@ -10,6 +10,9 @@ interface WorkoutProps {
 	workoutName: string;
 	isFavourite: boolean;
 	updateWorkoutIfFavourite: (id: number) => void;
+	selectWorkout: (id: number) => void;
+	selectedWorkoutId: number;
+	setSelectedWorkoutId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Workout = ({
@@ -17,13 +20,19 @@ const Workout = ({
 	workoutName,
 	isFavourite,
 	updateWorkoutIfFavourite,
+	selectWorkout,
+	selectedWorkoutId,
+	setSelectedWorkoutId,
 }: WorkoutProps) => {
 	return (
 		<div
 			className={`workout-card d-flex align-items-center gap-3 ${
-				isFavourite ? 'selected' : 'bg-secondary'
+				selectedWorkoutId == id ? 'selected' : 'bg-secondary'
 			}`}
-			onClick={() => {}}
+			onClick={() => {
+				selectWorkout(id);
+				setSelectedWorkoutId(id);
+			}}
 		>
 			<div className='workout-image-container p-1'>
 				<img className='workout-image' src={workoutImg} />
