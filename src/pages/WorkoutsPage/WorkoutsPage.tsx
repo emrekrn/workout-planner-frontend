@@ -8,6 +8,7 @@ import { WorkoutData } from '../../model/WorkoutDataModel';
 import { getWorkoutsByUserId } from '../../services/api';
 import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 import { AxiosResponse } from 'axios';
+import { changeIsFavourite } from '../../services/api';
 
 const WorkoutsPage = () => {
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
@@ -18,17 +19,23 @@ const WorkoutsPage = () => {
 		setWorkoutDataState((prev) => [...prev, newWorkoutData]);
 	};
 	const updateWorkoutIfFavourite = (id: number) => {
-		setWorkoutDataState((prev) => {
-			return prev.map((workout) => {
-				if (workout.workoutId == id) {
-					return {
-						...workout,
-						isFavourite: !workout.isFavourite,
-					};
-				} else {
-					return workout;
-				}
-			});
+		changeIsFavourite(userId!, id).then((response) => {
+			if (response.status == 200) {
+				setWorkoutDataState((prev) => {
+					return prev.map((workout) => {
+						if (workout.workoutId == id) {
+							return {
+								...workout,
+								isFavourite: !workout.isFavourite,
+							};
+						} else {
+							return workout;
+						}
+					});
+				});
+			} else {
+				console.log('isFavourite could not been updated');
+			}
 		});
 	};
 
