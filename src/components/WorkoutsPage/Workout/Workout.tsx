@@ -2,7 +2,11 @@ import React from 'react';
 import './workout.scss';
 import workoutImg from '../../../images/workout-placeholder.jpg';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
-import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
+import {
+	faBookmark as faBookmarkSolid,
+	faPen,
+	faX,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface WorkoutProps {
@@ -37,11 +41,21 @@ const Workout = ({
 			<div className='workout-image-container p-1'>
 				<img className='workout-image' src={workoutImg} />
 			</div>
-			<div className='workout-info-field h-100'>
-				<div className='header d-flex align-items-center justify-content-between'>
+			<div className='workout-info-field d-flex h-100'>
+				<div className='header flex-grow-1 d-flex flex-column'>
 					<h4 className='text-white'>{workoutName}</h4>
+					<div className='body d-flex flex-column gap-1 align-items-start '>
+						<div className='body-card bg-primary px-2'>
+							<span className='text-white'>[Workout Category]</span>
+						</div>
+						<div className='body-card bg-primary px-2'>
+							<span className='text-white'>Exercises: [exerciseNumber]</span>
+						</div>
+					</div>
+				</div>
+				<div className='workout-btn-field'>
 					<div
-						className='favourite-btn-field bg-primary d-flex align-items-center justify-content-center'
+						className='favourite-btn-div bg-primary d-flex align-items-center justify-content-center'
 						onClick={() => updateWorkoutIfFavourite(id)}
 					>
 						{isFavourite ? (
@@ -53,13 +67,11 @@ const Workout = ({
 							/>
 						)}
 					</div>
-				</div>
-				<div className='body d-flex flex-column gap-1 align-items-start '>
-					<div className='body-card bg-primary px-2'>
-						<span className='text-white'>[Workout Category]</span>
+					<div className='favourite-btn-div bg-danger d-flex align-items-center justify-content-center'>
+						<FontAwesomeIcon className='text-white' icon={faX} />
 					</div>
-					<div className='body-card bg-primary px-2'>
-						<span className='text-white'>Exercises: [exerciseNumber]</span>
+					<div className='favourite-btn-div bg-primary d-flex align-items-center justify-content-center'>
+						<FontAwesomeIcon className='text-white' icon={faPen} />
 					</div>
 				</div>
 			</div>
