@@ -8,7 +8,8 @@ import { WorkoutData } from '../../model/WorkoutDataModel';
 import { getWorkoutsByUserId } from '../../services/api';
 import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 import { AxiosResponse } from 'axios';
-import { changeIsFavourite } from '../../services/api';
+import { changeIsFavourite, deleteWorkout } from '../../services/api';
+import DeleteWorkoutModal from '../../components/WorkoutsPage/DeleteWorkoutModal/DeleteWorkoutModal';
 
 const WorkoutsPage = () => {
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
@@ -20,8 +21,21 @@ const WorkoutsPage = () => {
 
 	const { userId } = useContext(UserAuthenticationContext);
 
-	const updateWorkoudDataStateOnFormSubmit = (newWorkoutData: WorkoutData) => {
+	const updateWorkoutDataStateOnCreateFormSubmit = (
+		newWorkoutData: WorkoutData
+	) => {
 		setWorkoutDataState((prev) => [...prev, newWorkoutData]);
+	};
+	const updateWorkoudDataStateOnDeleteWorkout = (workoutId: number) => {
+		deleteWorkout(workoutId).then((response) => {
+			if (response.status == 200) {
+				setWorkoutDataState((prev) =>
+					prev.filter((workout) => workout.workoutId != workoutId)
+				);
+			} else {
+				console.log(`Workout ${workoutId} could not found!`);
+			}
+		});
 	};
 	const updateWorkoutIfFavourite = (id: number) => {
 		changeIsFavourite(userId!, id).then((response) => {
@@ -55,6 +69,7 @@ const WorkoutsPage = () => {
 		};
 		getWorkoutsOfUser()
 			.then((response) => {
+				console.log(response.data);
 				setWorkoutDataState(response.data);
 			})
 			.catch((e) => console.log(e));
@@ -70,6 +85,9 @@ const WorkoutsPage = () => {
 			selectWorkout={selectWorkout}
 			selectedWorkoutId={selectedWorkoutId}
 			setSelectedWorkoutId={setSelectedWorkoutId}
+			updateWorkoudDataStateOnDeleteWorkout={
+				updateWorkoudDataStateOnDeleteWorkout
+			}
 		/>
 	));
 
@@ -107,7 +125,9 @@ const WorkoutsPage = () => {
 			<CreateWorkoutModal
 				show={showCreateWorkoutModal}
 				handleClose={handleCloseCreateWorkoutModal}
-				updateWorkoudDataStateOnFormSubmit={updateWorkoudDataStateOnFormSubmit}
+				updateWorkoutDataStateOnCreateFormSubmit={
+					updateWorkoutDataStateOnCreateFormSubmit
+				}
 			/>
 		</div>
 	);

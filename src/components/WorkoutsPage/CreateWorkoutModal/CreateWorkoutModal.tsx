@@ -9,13 +9,13 @@ import { UserAuthenticationContext } from '../../../context/UserAuthenticationCo
 interface CreateWorkoutModalProps {
 	show: boolean;
 	handleClose: () => void;
-	updateWorkoudDataStateOnCreateFormSubmit: (workoutData: WorkoutData) => void;
+	updateWorkoutDataStateOnCreateFormSubmit: (workoutData: WorkoutData) => void;
 }
 
 const CreateWorkoutModal = ({
 	show,
 	handleClose,
-	updateWorkoudDataStateOnCreateFormSubmit,
+	updateWorkoutDataStateOnCreateFormSubmit,
 }: CreateWorkoutModalProps) => {
 	const [workoutName, setWorkoutName] = useState('');
 	const [workoutCategory, setWorkoutCategory] = useState('');
@@ -27,7 +27,7 @@ const CreateWorkoutModal = ({
 			const response = await createWorkout({ workoutName, userId: userId! });
 			console.log(response);
 			if (response.status == 201) {
-				updateWorkoudDataStateOnCreateFormSubmit(response.data);
+				updateWorkoutDataStateOnCreateFormSubmit(response.data);
 			} else {
 				console.log(
 					`Workout couldn't be created.Status code :${response.status}`

@@ -36,10 +36,14 @@ export const getWorkoutsByUserId = (userId: number): Promise<AxiosResponse> => {
 	return api.get(`/workouts/get-workouts/${userId}`);
 };
 
+export const createWorkout = (requestData: CreateWorkoutRequest) => {
+	return api.post('/workouts/create-workout', requestData);
+};
+
 export const changeIsFavourite = (userId: number, workoutId: number) => {
 	return api.putForm(`/workouts/changeIsFavourite`, { userId, workoutId });
 };
 
-export const createWorkout = (requestData: CreateWorkoutRequest) => {
-	return api.post('/workouts/create-workout', requestData);
+export const deleteWorkout = (workoutId: number) => {
+	return api.delete(`/workouts/${workoutId}`);
 };
