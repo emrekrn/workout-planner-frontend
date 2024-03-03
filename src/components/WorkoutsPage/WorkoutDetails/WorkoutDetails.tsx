@@ -1,6 +1,6 @@
 import React from 'react';
 import './workoutDetails.scss';
-import workoutPlaceholder from '../../../images/workout-placeholder.jpg';
+import workoutPlaceholder from '../../../assets/images/workout-placeholder.jpg';
 import ExerciseCard from '../ExerciseCard/ExerciseCard';
 
 interface WorkoutDetailsProps {

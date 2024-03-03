@@ -1,7 +1,7 @@
 import React, { FormEvent, useContext, useState } from 'react';
 import './createWorkoutModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
-import Input from '../../InputComponent/Input';
+import Input from '../../ui/Input';
 import { WorkoutData } from '../../../model/WorkoutDataModel';
 import { createWorkout } from '../../../services/api';
 import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';

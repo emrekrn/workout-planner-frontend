@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './desktopNav.scss';
+import '../../assets/style/desktopNav.scss';
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -13,7 +13,7 @@ import {
 	faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
+import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 
 const DesktopNav = () => {
 	const { handleLogout } = useContext(UserAuthenticationContext);

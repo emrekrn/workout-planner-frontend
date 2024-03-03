@@ -1,6 +1,6 @@
 import './loginPage.scss';
-import mainImg from '../../images/mainimg.jpg';
-import siteName from '../../images/workoutplanner.png';
+import mainImg from '../../assets/images/mainimg.jpg';
+import siteName from '../../assets/images/workoutplanner.png';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';

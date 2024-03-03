@@ -1,10 +1,10 @@
 import React, { FormEvent, useContext, useState } from 'react';
-import './login.scss';
-import Input from '../../InputComponent/Input';
+import '../../assets/style/login.scss';
+import Input from '../ui/Input';
 import { Alert, Button } from 'react-bootstrap';
-import { loginUser } from '../../../services/api';
+import { loginUser } from '../../services/api';
 import { AxiosError, AxiosResponse } from 'axios';
-import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
+import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 
 const Login = () => {
 	const [email, setEmail] = useState('');

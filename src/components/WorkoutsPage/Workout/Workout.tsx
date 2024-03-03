@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './workout.scss';
-import workoutImg from '../../../images/workout-placeholder.jpg';
+import workoutImg from '../../../assets/images/workout-placeholder.jpg';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
 import {
 	faBookmark as faBookmarkSolid,

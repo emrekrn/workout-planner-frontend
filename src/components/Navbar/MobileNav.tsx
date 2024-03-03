@@ -1,7 +1,7 @@
 import React from 'react';
-import './mobileNav.scss';
+import '../../assets/style/mobileNav.scss';
 
-import siteName from '../../../images/workoutplanner.png';
+import siteName from '../../assets/images/workoutplanner.png';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';

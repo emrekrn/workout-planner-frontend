@@ -1,9 +1,9 @@
 import { FormEvent, useContext, useState } from 'react';
-import './register.scss';
-import Input from '../../InputComponent/Input';
+import '../../assets/style/register.scss';
+import Input from '../ui/Input';
 import { Alert, Button } from 'react-bootstrap';
-import { registerUser } from '../../../services/api';
-import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
+import { registerUser } from '../../services/api';
+import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 import { AxiosError } from 'axios';
 
 const Register = () => {
