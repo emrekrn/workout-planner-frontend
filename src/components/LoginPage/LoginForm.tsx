@@ -1,35 +1,25 @@
-import React, { FormEvent, useContext, useState } from 'react';
 import '../../assets/style/login.scss';
 import Input from '../ui/Input';
-import { Alert, Button } from 'react-bootstrap';
-import { loginUser } from '../../services/api';
-import { AxiosError, AxiosResponse } from 'axios';
-import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
+import { Button } from 'react-bootstrap';
+import { useAppDispatch } from '../../app/hooks.ts';
+import { logIn } from '../../features/auth/authSlice.ts';
+import { FormEvent } from 'react';
 
 const Login = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [errorMessage, setErrorMessage] = useState('');
-	const { setUserId, setUserToken } = useContext(UserAuthenticationContext);
+	const dispatch = useAppDispatch();
 
-	const handleSubmit = async (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		try {
-			const response: AxiosResponse = await loginUser({
-				email: email,
-				password: password,
-			});
-			if (response.status == 200) {
-				setUserId(response.data.userId);
-				setUserToken(response.data.userId);
-			}
-		} catch (err) {
-			if (err instanceof AxiosError) {
-				if (err.response?.status == 401) {
-					setErrorMessage('Wrong email or wrong password');
-				}
-			}
-		}
+		const email = e.currentTarget.elements.namedItem(
+			'email'
+		) as HTMLInputElement;
+		const password = e.currentTarget.elements.namedItem(
+			'password'
+		) as HTMLInputElement;
+		console.log(`Email: ${email.value}`);
+		console.log(`Password: ${password.value}`);
+
+		dispatch(logIn({ userId: 20, userToken: 3, status: 'loggedIn' }));
 	};
 
 	return (
@@ -41,30 +31,18 @@ const Login = () => {
 					Create an account
 				</a>
 			</p>
-			<form onSubmit={handleSubmit} noValidate>
-				<Input
-					labelText='Email'
-					id='email'
-					inputType='text'
-					col='col-12'
-					setFunction={setEmail}
-				/>
+			<form onSubmit={(e) => handleSubmit(e)} noValidate>
+				<Input labelText='Email' id='email' inputType='text' col='col-12' />
 				<Input
 					labelText='Password '
 					id='password'
 					inputType='password'
 					col='col-12'
-					setFunction={setPassword}
 				/>
 				<div className='col-12 d-flex flex-column align-items-center'>
 					<Button type='submit' variant='primary' className='w-25'>
 						Log in
 					</Button>
-					{errorMessage && (
-						<Alert className='mt-2' key='danger' variant='danger'>
-							{errorMessage}
-						</Alert>
-					)}
 				</div>
 			</form>
 		</div>

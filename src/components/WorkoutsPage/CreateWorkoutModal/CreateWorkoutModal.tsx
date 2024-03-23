@@ -1,15 +1,15 @@
-import React, { FormEvent, useContext, useState } from 'react';
+import { FormEvent } from 'react';
 import './createWorkoutModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
 import Input from '../../ui/Input';
-import { WorkoutData } from '../../../model/WorkoutDataModel';
-import { createWorkout } from '../../../services/api';
-import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
 
 interface CreateWorkoutModalProps {
 	show: boolean;
 	handleClose: () => void;
-	updateWorkoutDataStateOnCreateFormSubmit: (workoutData: WorkoutData) => void;
+	updateWorkoutDataStateOnCreateFormSubmit: (
+		workoutName: string,
+		workoutCategory: string
+	) => void;
 }
 
 const CreateWorkoutModal = ({
@@ -17,25 +17,18 @@ const CreateWorkoutModal = ({
 	handleClose,
 	updateWorkoutDataStateOnCreateFormSubmit,
 }: CreateWorkoutModalProps) => {
-	const [workoutName, setWorkoutName] = useState('');
-	const [workoutCategory, setWorkoutCategory] = useState('');
-	const { userId } = useContext(UserAuthenticationContext);
-
-	const handleSubmit = async (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		try {
-			const response = await createWorkout({ workoutName, userId: userId! });
-			console.log(response);
-			if (response.status == 201) {
-				updateWorkoutDataStateOnCreateFormSubmit(response.data);
-			} else {
-				console.log(
-					`Workout couldn't be created.Status code :${response.status}`
-				);
-			}
-		} catch (err) {
-			console.log(err);
-		}
+		const workoutName = e.currentTarget.elements.namedItem(
+			'workoutName'
+		) as HTMLInputElement;
+		const workoutCategory = e.currentTarget.elements.namedItem(
+			'workoutCategory'
+		) as HTMLInputElement;
+		updateWorkoutDataStateOnCreateFormSubmit(
+			workoutName.value,
+			workoutCategory.value
+		);
 	};
 	return (
 		<>
@@ -55,14 +48,12 @@ const CreateWorkoutModal = ({
 								labelText='Name'
 								col='col-12'
 								inputType='text'
-								setFunction={setWorkoutName}
 							/>
 							<Input
 								id='workoutCategory'
 								labelText='Category'
 								col='col-12'
 								inputType='text'
-								setFunction={setWorkoutCategory}
 							/>
 						</Card.Body>
 						<Card.Footer className='d-flex justify-content-end gap-3'>

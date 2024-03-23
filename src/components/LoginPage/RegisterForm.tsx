@@ -1,67 +1,26 @@
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent } from 'react';
 import '../../assets/style/register.scss';
 import Input from '../ui/Input';
-import { Alert, Button } from 'react-bootstrap';
-import { registerUser } from '../../services/api';
-import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
-import { AxiosError } from 'axios';
+import { Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { logIn } from '../../features/auth/authSlice.ts';
 
 const Register = () => {
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [passwordConfirmation, setPasswordConfirmation] = useState('');
-	const [errorMessage, setErrorMessage] = useState('');
-
-	const { setUserToken, setUserId, userId, userToken } = useContext(
-		UserAuthenticationContext
-	);
-
-	const handleSubmit = async (e: FormEvent) => {
+	const dispatch = useDispatch();
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (!email) {
-			setErrorMessage('Email can not be empty');
-			return;
-		} else if (!password) {
-			setErrorMessage('Password can not be empty');
-			return;
-		} else if (!passwordConfirmation) {
-			setErrorMessage('Password confirmation can not be empty');
-			return;
-		} else if (password != passwordConfirmation) {
-			setErrorMessage('Passwords are not same');
-			return;
-		}
+		const email = e.currentTarget.elements.namedItem(
+			'email'
+		) as HTMLInputElement;
+		const password = e.currentTarget.elements.namedItem(
+			'email'
+		) as HTMLInputElement;
 
-		try {
-			const response = await registerUser({
-				firstName: firstName,
-				lastName: lastName,
-				username: username,
-				email: email,
-				password: password,
-				passwordConfirmation: passwordConfirmation,
-			});
-			if (response.status == 201) {
-				setUserId(response.data.userId);
-				setUserToken(response.data.userId);
-				console.log(userId);
-				console.log(userToken);
-			}
-		} catch (err: unknown) {
-			if (err instanceof AxiosError) {
-				if (err.response?.status == 409) {
-					setErrorMessage('User email already exists!');
-					console.log('test');
-					return;
-				}
-			}
-		}
+		console.log(`Email: ${email.value}`);
+		console.log(`Password: ${password.value}`);
 
-		console.log('test');
+		dispatch(logIn({ userId: 20, userToken: 3, status: 'loggedIn' }));
 	};
 
 	return (
@@ -80,14 +39,12 @@ const Register = () => {
 						id='firstname'
 						inputType='text'
 						col='col-6'
-						setFunction={setFirstName}
 					/>
 					<Input
 						labelText='Last name'
 						id='lastname'
 						inputType='text'
 						col='col-6'
-						setFunction={setLastName}
 					/>
 				</div>
 				<Input
@@ -95,39 +52,25 @@ const Register = () => {
 					id='username'
 					inputType='text'
 					col='col-12'
-					setFunction={setUsername}
 				/>
-				<Input
-					labelText='Email'
-					id='email'
-					inputType='email'
-					col='col-12'
-					setFunction={setEmail}
-				/>
+				<Input labelText='Email' id='email' inputType='email' col='col-12' />
 				<Input
 					labelText='Password'
 					id='password'
 					inputType='password'
 					col='col-12'
-					setFunction={setPassword}
 				/>
 				<Input
 					labelText='Password confirmation'
 					id='passwordConfirmation'
 					inputType='password'
 					col='col-12'
-					setFunction={setPasswordConfirmation}
 				/>
 
 				<div className='col-12 d-flex flex-column align-items-center'>
 					<Button type='submit' variant='primary' className='w-50'>
 						Create an Account
 					</Button>
-					{errorMessage && (
-						<Alert className='mt-2' key='danger' variant='danger'>
-							{errorMessage}
-						</Alert>
-					)}
 				</div>
 			</form>
 		</div>

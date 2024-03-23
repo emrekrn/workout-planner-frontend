@@ -13,11 +13,8 @@ import {
 	faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 
 const DesktopNav = () => {
-	const { handleLogout } = useContext(UserAuthenticationContext);
-
 	return (
 		<div className='nav-bar-large bg-secondary d-none d-sm-flex flex-column align-items-center justify-content-between pt-5 gap-5'>
 			<div className='nav-top d-flex flex-column align-items-center gap-5'>
@@ -71,7 +68,7 @@ const DesktopNav = () => {
 					</OverlayTrigger>
 					{/* workouts */}
 				</Link>
-				<div className='nav-icon' onClick={() => handleLogout()}>
+				<div className='nav-icon'>
 					<OverlayTrigger
 						key='top'
 						placement='right'

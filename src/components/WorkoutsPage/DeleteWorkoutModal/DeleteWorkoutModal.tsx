@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
 import './deleteWorkoutModal.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
-import { UserAuthenticationContext } from '../../../context/UserAuthenticationContext';
+import { useSelector } from 'react-redux';
+import { getUserId } from '../../../features/auth/authSlice.ts';
 
 interface DeleteWorkoutModalProps {
 	id: number;
@@ -16,7 +16,9 @@ const DeleteWorkoutModal = ({
 	handleClose,
 	updateWorkoutDataStateOnDeleteWorkout,
 }: DeleteWorkoutModalProps) => {
-	const { userId } = useContext(UserAuthenticationContext);
+	const userId = useSelector(getUserId);
+	console.log(userId);
+
 	return (
 		<>
 			<Modal

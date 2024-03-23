@@ -1,4 +1,3 @@
-import React from 'react';
 import './workoutDetails.scss';
 import workoutPlaceholder from '../../../assets/images/workout-placeholder.jpg';
 import ExerciseCard from '../ExerciseCard/ExerciseCard';

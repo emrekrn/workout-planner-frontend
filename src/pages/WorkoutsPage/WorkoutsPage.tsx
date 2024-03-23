@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './workoutPage.scss';
 import Workout from '../../components/WorkoutsPage/Workout/Workout';
 import WorkoutDetails from '../../components/WorkoutsPage/WorkoutDetails/WorkoutDetails';
@@ -6,20 +6,20 @@ import { Button } from 'react-bootstrap';
 import CreateWorkoutModal from '../../components/WorkoutsPage/CreateWorkoutModal/CreateWorkoutModal';
 import { WorkoutData } from '../../model/WorkoutDataModel';
 import { getWorkoutsByUserId } from '../../services/api';
-import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
 import { AxiosResponse } from 'axios';
 import { changeIsFavourite, deleteWorkout } from '../../services/api';
-import DeleteWorkoutModal from '../../components/WorkoutsPage/DeleteWorkoutModal/DeleteWorkoutModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserId, logIn } from '../../features/auth/authSlice.ts';
 
 const WorkoutsPage = () => {
+	const userId = useSelector(getUserId);
+
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
 	const [workoutDataState, setWorkoutDataState] = useState<WorkoutData[]>([]);
 	const [selectedWorkout, setSelectedWorkout] = useState<WorkoutData>(
 		{} as WorkoutData
 	);
 	const [selectedWorkoutId, setSelectedWorkoutId] = useState(0);
-
-	const { userId } = useContext(UserAuthenticationContext);
 
 	const updateWorkoutDataStateOnCreateFormSubmit = (
 		newWorkoutData: WorkoutData

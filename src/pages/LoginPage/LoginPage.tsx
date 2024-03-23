@@ -2,14 +2,15 @@ import './loginPage.scss';
 import mainImg from '../../assets/images/mainimg.jpg';
 import siteName from '../../assets/images/workoutplanner.png';
 import { Outlet, Navigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { UserAuthenticationContext } from '../../context/UserAuthenticationContext';
+import { useSelector } from 'react-redux';
+import { getUserToken } from '../../features/auth/authSlice.ts';
 
 const LoginPage = () => {
-	const { userToken } = useContext(UserAuthenticationContext);
+	const userToken = useSelector(getUserToken);
 	if (userToken) {
 		return <Navigate to='/' replace />;
 	}
+
 	return (
 		<div className='login-page bg-primary row m-0'>
 			<div className='left-part d-none d-md-flex align-items-center justify-content-center col-md-6'>

@@ -1,9 +1,10 @@
-import React, { ReactElement, useContext } from 'react';
-import { UserAuthenticationContext } from '../context/UserAuthenticationContext';
+import { ReactElement } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getUserToken } from '../features/auth/authSlice.ts';
 
 const ProtectedRoute = ({ children }: { children: ReactElement }) => {
-	const { userToken } = useContext(UserAuthenticationContext);
+	const userToken = useSelector(getUserToken);
 
 	if (!userToken) {
 		return <Navigate to='/login' replace />;
