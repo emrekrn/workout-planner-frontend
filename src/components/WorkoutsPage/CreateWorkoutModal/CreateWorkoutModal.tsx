@@ -3,7 +3,7 @@ import './createWorkoutModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
 import Input from '../../ui/Input';
 import workout from '../Workout/Workout.tsx';
-import deleteWorkoutModal from '../DeleteWorkoutModal/DeleteWorkoutModal.tsx';
+import deleteWorkoutModal from '../../ui/DeleteModal/DeleteModal.tsx';
 import { useDispatch } from 'react-redux';
 import { createWorkout } from '../../../features/workout/workoutSlice.ts';
 

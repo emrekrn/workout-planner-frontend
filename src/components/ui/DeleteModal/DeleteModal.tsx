@@ -1,20 +1,20 @@
-import './deleteWorkoutModal.scss';
+import './deleteModal.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { getUserId } from '../../../features/auth/authSlice.ts';
 import { useAppDispatch } from '../../../app/hooks.ts';
-import { deleteWorkout } from '../../../features/workout/workoutSlice.ts';
+import { Action } from '@reduxjs/toolkit';
 
 interface DeleteWorkoutModalProps {
-	id: number;
+	name: string;
 	show: boolean;
 	handleClose: () => void;
+	dispatchFunction: () => Action;
 }
 
-const DeleteWorkoutModal = ({
-	id,
+const DeleteModal = ({
+	name,
 	show,
 	handleClose,
+	dispatchFunction,
 }: DeleteWorkoutModalProps) => {
 	const dispatch = useAppDispatch();
 
@@ -28,9 +28,9 @@ const DeleteWorkoutModal = ({
 				keyboard={true}
 			>
 				<Card className='bg-primary'>
-					<Card.Header as='h3'>Delete Workout</Card.Header>
+					<Card.Header as='h3'>Delete "{name}"</Card.Header>
 					<Card.Body className='pt-4 pb-5'>
-						Are you sure, you want to delete the workout?
+						Are you sure, you want to delete the "{name}"?
 					</Card.Body>
 					<Card.Footer className='d-flex justify-content-end gap-3'>
 						<Button variant='grey' onClick={handleClose}>
@@ -41,7 +41,7 @@ const DeleteWorkoutModal = ({
 							type='submit'
 							variant='secondary'
 							onClick={() => {
-								dispatch(deleteWorkout({ id }));
+								dispatch(() => dispatch(dispatchFunction()));
 							}}
 						>
 							Delete
@@ -53,4 +53,4 @@ const DeleteWorkoutModal = ({
 	);
 };
 
-export default DeleteWorkoutModal;
+export default DeleteModal;

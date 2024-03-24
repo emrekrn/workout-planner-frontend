@@ -1,4 +1,4 @@
-import { seState, useState } from 'react';
+import { useState } from 'react';
 import './workoutPage.scss';
 import Workout from '../../components/WorkoutsPage/Workout/Workout';
 import WorkoutDetails from '../../components/WorkoutsPage/WorkoutDetails/WorkoutDetails';
@@ -9,8 +9,6 @@ import {
 	getSelectedWorkout,
 	getWorkouts,
 } from '../../features/workout/workoutSlice.ts';
-import { getUserToken } from '../../features/auth/authSlice.ts';
-import { useAppDispatch } from '../../app/hooks.ts';
 
 const WorkoutsPage = () => {
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
@@ -22,6 +20,8 @@ const WorkoutsPage = () => {
 			key={workout.id}
 			id={workout.id}
 			workoutName={workout.workoutName}
+			workoutCategory={workout.workoutCategory}
+			exerciseNumber={workout.exercises.length}
 			isFavourite={workout.isFavourite}
 			isSelected={workout.isSelected}
 		/>
@@ -30,8 +30,6 @@ const WorkoutsPage = () => {
 	const handleShowCreateWorkoutModal = () => {
 		setShowCreateWorkoutModal((prevState) => !prevState);
 	};
-
-	const handleCloseCreateWorkoutModal = () => {};
 
 	return (
 		<div className='workout-page d-flex'>

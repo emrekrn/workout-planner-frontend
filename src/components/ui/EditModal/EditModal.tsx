@@ -1,33 +1,37 @@
-import React, { FormEvent, useState } from 'react';
-import './editWorkoutModal.scss';
+import React, { FormEvent, SetStateAction, useState } from 'react';
+import './editModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
-import Input from '../../ui/Input';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
-	createWorkout,
 	editWorkout,
 	getWorkoutById,
 } from '../../../features/workout/workoutSlice.ts';
-import { WorkoutData } from '../../../model/WorkoutDataModel.ts';
+import { ExerciseData, WorkoutData } from '../../../model/WorkoutDataModel.ts';
 import { useAppDispatch } from '../../../app/hooks.ts';
+import { Action, Dispatch, Selector } from '@reduxjs/toolkit';
 
 interface CreateWorkoutModalProps {
 	id: number;
+	inputName: string;
 	show: boolean;
 	handleClose: () => void;
+	data: Selector;
+	dispatchFunction: (text: string) => Action;
 }
 
-const EditWorkoutModal = ({
+const EditModal = ({
 	id,
+	inputName,
 	show,
 	handleClose,
+	data,
+	dispatchFunction,
 }: CreateWorkoutModalProps) => {
 	const dispatch = useAppDispatch();
-	const [workout, setWorkout] = useState(
-		useSelector((state) => getWorkoutById(state, id)) as WorkoutData
-	);
+	const [value, setValue] = useState(useSelector((state) => data(state, id)));
+	console.log(value);
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setWorkout((prevState) => {
+		setValue((prevState) => {
 			return {
 				...prevState,
 				[e.target.name]: [e.target.value],
@@ -36,7 +40,11 @@ const EditWorkoutModal = ({
 	};
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(editWorkout({ id: id, workoutName: workout.workoutName }));
+		const input = e.currentTarget.elements.namedItem(
+			inputName
+		) as HTMLInputElement;
+		console.log(input.value);
+		dispatch(dispatchFunction(value!.exerciseName || value!.workoutName));
 	};
 	return (
 		<>
@@ -52,15 +60,15 @@ const EditWorkoutModal = ({
 						<Card.Header as='h3'>Edit Workout</Card.Header>
 						<Card.Body>
 							<div className='mb-3 '>
-								<label htmlFor='workoutName' className='form-label text-white'>
+								<label htmlFor={inputName} className='form-label text-white'>
 									Workout name:
 								</label>
 								<input
 									type='text'
 									className='form-control bg-primary border-secondary text-white'
-									id='workoutName'
-									name='workoutName'
-									value={workout.workoutName}
+									id={inputName}
+									name={inputName}
+									value={value!.exerciseName || value!.workoutName}
 									onChange={handleChange}
 									required
 								/>
@@ -81,4 +89,4 @@ const EditWorkoutModal = ({
 	);
 };
 
-export default EditWorkoutModal;
+export default EditModal;

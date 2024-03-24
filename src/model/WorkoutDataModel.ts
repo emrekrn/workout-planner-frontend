@@ -6,7 +6,6 @@ export interface WorkoutData {
 	exercises: ExerciseData[];
 	isFavourite: boolean;
 	isSelected: boolean;
-	exerciseNumber: number;
 }
 
 export interface ExerciseData {

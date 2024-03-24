@@ -8,8 +8,8 @@ export interface AuthState {
 }
 
 const initialState: AuthState = {
-	userId: 0,
-	userToken: 0,
+	userId: 1,
+	userToken: 1,
 	status: 'unauthenticated',
 };
 

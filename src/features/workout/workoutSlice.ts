@@ -3,6 +3,7 @@ import { WorkoutData } from '../../model/WorkoutDataModel.ts';
 import { RootState } from '../../app/store.ts';
 import { workoutData } from '../../utils/testData/data.ts';
 import { v4 as uuidv4 } from 'uuid';
+import { logIn } from '../auth/authSlice.ts';
 import workout from '../../components/WorkoutsPage/Workout/Workout.tsx';
 
 export interface WorkoutsState {
@@ -25,10 +26,11 @@ export const workoutsSlice = createSlice({
 				const workout: WorkoutData = {
 					id: id,
 					workoutName: workoutName,
+					workoutDescription: '',
 					workoutCategory: 'test',
+					exercises: [],
 					isFavourite: false,
 					isSelected: false,
-					exerciseNumber: 0,
 				};
 				state.workouts.push(workout);
 			},
@@ -80,6 +82,38 @@ export const workoutsSlice = createSlice({
 				return { ...workout, isSelected: false };
 			});
 		},
+		editExercise: (state, action) => {
+			const { id, exerciseName } = action.payload;
+
+			state.workouts = state.workouts.map((workout) => {
+				const exercises = workout.exercises.map((exercise) => {
+					if (exercise.exerciseId === id) {
+						return {
+							...exercise,
+							exerciseName: exerciseName,
+						};
+					}
+					return exercise;
+				});
+				return {
+					...workout,
+					exercises: exercises,
+				};
+			});
+		},
+		deleteExercise: (state, action) => {
+			const { id } = action.payload;
+			console.log(id);
+			state.workouts = state.workouts.map((workout) => {
+				const workoutExercises = workout.exercises.filter(
+					(exercise) => exercise.exerciseId !== id
+				);
+				return {
+					...workout,
+					exercises: workoutExercises,
+				};
+			});
+		},
 	},
 });
 
@@ -90,6 +124,8 @@ export const {
 	setWorkoutSelected,
 	deleteWorkout,
 	editWorkout,
+	editExercise,
+	deleteExercise,
 } = workoutsSlice.actions;
 
 export const getWorkouts = (state: RootState) => {
@@ -99,7 +135,22 @@ export const getWorkouts = (state: RootState) => {
 export const getWorkoutById = createSelector(
 	(state) => state.workouts.workouts,
 	(_, id) => id,
-	(workouts, id) => workouts.find((workout: WorkoutData) => workout.id === id)
+	(workouts: WorkoutData[], id) =>
+		workouts.find((workout: WorkoutData) => workout.id === id)
+);
+
+export const getExerciseById = createSelector(
+	(state) => state.workouts.workouts,
+	(_, exerciseId) => exerciseId,
+	(workouts: WorkoutData[], exerciseId) => {
+		return workouts
+			.flatMap((workout) => {
+				return workout.exercises.find(
+					(exercise) => exercise.exerciseId === exerciseId
+				);
+			})
+			.filter((element) => element)[0];
+	}
 );
 
 export const getSelectedWorkout = (state: RootState) =>

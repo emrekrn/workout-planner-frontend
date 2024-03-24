@@ -7,20 +7,25 @@ import {
 	faX,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DeleteWorkoutModal from '../DeleteWorkoutModal/DeleteWorkoutModal';
+import DeleteModal from '../../ui/DeleteModal/DeleteModal.tsx';
 import {
 	deleteWorkout,
+	editWorkout,
+	getWorkoutById,
 	setWorkoutFavourite,
 	setWorkoutSelected,
 } from '../../../features/workout/workoutSlice.ts';
-import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '../../../app/hooks.ts';
 import { useState } from 'react';
-import EditWorkoutModal from '../EditWorkoutModal/EditWorkoutModal.tsx';
+import EditModal from '../../ui/EditModal/EditModal.tsx';
+import { Action } from '@reduxjs/toolkit';
+import { RootState } from '../../../app/store.ts';
 
 interface WorkoutProps {
 	id: number;
 	workoutName: string;
+	workoutCategory: string;
+	exerciseNumber: number;
 	isFavourite: boolean;
 	isSelected: boolean;
 }
@@ -28,6 +33,8 @@ interface WorkoutProps {
 const Workout = ({
 	id,
 	workoutName,
+	workoutCategory,
+	exerciseNumber,
 	isFavourite,
 	isSelected,
 }: WorkoutProps) => {
@@ -37,15 +44,21 @@ const Workout = ({
 
 	return (
 		<>
-			<DeleteWorkoutModal
-				id={id}
+			<DeleteModal
+				name={workoutName}
 				show={showDeleteWorkoutModal}
 				handleClose={() => setShowDeleteWorkoutModal((prevState) => !prevState)}
+				dispatchFunction={() => deleteWorkout({ id }) as Action}
 			/>
-			<EditWorkoutModal
+			<EditModal
 				id={id}
+				inputName='workoutName'
+				data={(state: RootState, id: number) => getWorkoutById(state, id)}
 				show={showEditWorkoutModal}
 				handleClose={() => setShowEditWorkoutModal((prevState) => !prevState)}
+				dispatchFunction={(workoutName: string) =>
+					editWorkout({ id, workoutName: workoutName }) as Action
+				}
 			/>
 			<div
 				className={`workout-card d-flex align-items-center gap-3 
@@ -63,10 +76,10 @@ const Workout = ({
 						<h4 className='text-white'>{workoutName}</h4>
 						<div className='body d-flex flex-column gap-1 align-items-start '>
 							<div className='body-card bg-primary px-2'>
-								<span className='text-white'>[Workout Category]</span>
+								<span className='text-white'>{workoutCategory}</span>
 							</div>
 							<div className='body-card bg-primary px-2'>
-								<span className='text-white'>Exercises: [exerciseNumber]</span>
+								<span className='text-white'>Exercises: {exerciseNumber}</span>
 							</div>
 						</div>
 					</div>
