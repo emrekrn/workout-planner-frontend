@@ -71,7 +71,7 @@ const EditWorkoutModal = ({
 								Close
 							</Button>
 							<Button type='submit' variant='secondary' onClick={handleClose}>
-								Create
+								Edit
 							</Button>
 						</Card.Footer>
 					</form>

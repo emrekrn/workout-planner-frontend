@@ -7,10 +7,12 @@ import workout from '../../components/WorkoutsPage/Workout/Workout.tsx';
 
 export interface WorkoutsState {
 	workouts: WorkoutData[];
+	selectedWorkoutId: number;
 }
 
 const initialState: WorkoutsState = {
 	workouts: [...workoutData],
+	selectedWorkoutId: 0,
 };
 
 export const workoutsSlice = createSlice({
@@ -66,17 +68,16 @@ export const workoutsSlice = createSlice({
 		},
 		setWorkoutSelected: (state, action) => {
 			const { id } = action.payload;
+
 			state.workouts = state.workouts.map((workout) => {
-				if (workout.id == id) {
+				if (workout.id === id) {
+					state.selectedWorkoutId = id;
 					return {
 						...workout,
-						isSelected: !workout.isSelected,
+						isSelected: true,
 					};
 				}
-				return {
-					...workout,
-					isSelected: false,
-				};
+				return { ...workout, isSelected: false };
 			});
 		},
 	},
@@ -100,5 +101,10 @@ export const getWorkoutById = createSelector(
 	(_, id) => id,
 	(workouts, id) => workouts.find((workout: WorkoutData) => workout.id === id)
 );
+
+export const getSelectedWorkout = (state: RootState) =>
+	state.workouts.workouts.find(
+		(workout) => workout.id === state.workouts.selectedWorkoutId
+	);
 
 export default workoutsSlice.reducer;

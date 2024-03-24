@@ -5,12 +5,17 @@ import WorkoutDetails from '../../components/WorkoutsPage/WorkoutDetails/Workout
 import { Button } from 'react-bootstrap';
 import CreateWorkoutModal from '../../components/WorkoutsPage/CreateWorkoutModal/CreateWorkoutModal';
 import { useSelector } from 'react-redux';
-import { getWorkouts } from '../../features/workout/workoutSlice.ts';
+import {
+	getSelectedWorkout,
+	getWorkouts,
+} from '../../features/workout/workoutSlice.ts';
 import { getUserToken } from '../../features/auth/authSlice.ts';
+import { useAppDispatch } from '../../app/hooks.ts';
 
 const WorkoutsPage = () => {
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
 	const workouts = useSelector(getWorkouts);
+	const selectedWorkout = useSelector(getSelectedWorkout);
 
 	const workoutsElement = workouts.map((workout) => (
 		<Workout
@@ -47,9 +52,7 @@ const WorkoutsPage = () => {
 				</div>
 			</div>
 			<div className='workout-details-field bg-secondary'>
-				{/*{selectedWorkout && (*/}
-				{/*	<WorkoutDetails workoutName={selectedWorkout.workoutName} />*/}
-				{/*)}*/}
+				{selectedWorkout && <WorkoutDetails />}
 			</div>
 			<CreateWorkoutModal
 				show={showCreateWorkoutModal}
