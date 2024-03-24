@@ -1,103 +1,32 @@
-import { useEffect, useState } from 'react';
+import { seState, useState } from 'react';
 import './workoutPage.scss';
 import Workout from '../../components/WorkoutsPage/Workout/Workout';
 import WorkoutDetails from '../../components/WorkoutsPage/WorkoutDetails/WorkoutDetails';
 import { Button } from 'react-bootstrap';
 import CreateWorkoutModal from '../../components/WorkoutsPage/CreateWorkoutModal/CreateWorkoutModal';
-import { WorkoutData } from '../../model/WorkoutDataModel';
-import { getWorkoutsByUserId } from '../../services/api';
-import { AxiosResponse } from 'axios';
-import { changeIsFavourite, deleteWorkout } from '../../services/api';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserId, logIn } from '../../features/auth/authSlice.ts';
+import { useSelector } from 'react-redux';
+import { getWorkouts } from '../../features/workout/workoutSlice.ts';
+import { getUserToken } from '../../features/auth/authSlice.ts';
 
 const WorkoutsPage = () => {
-	const userId = useSelector(getUserId);
-
 	const [showCreateWorkoutModal, setShowCreateWorkoutModal] = useState(false);
-	const [workoutDataState, setWorkoutDataState] = useState<WorkoutData[]>([]);
-	const [selectedWorkout, setSelectedWorkout] = useState<WorkoutData>(
-		{} as WorkoutData
-	);
-	const [selectedWorkoutId, setSelectedWorkoutId] = useState(0);
+	const workouts = useSelector(getWorkouts);
 
-	const updateWorkoutDataStateOnCreateFormSubmit = (
-		newWorkoutData: WorkoutData
-	) => {
-		setWorkoutDataState((prev) => [...prev, newWorkoutData]);
-	};
-	const updateWorkoudDataStateOnDeleteWorkout = (workoutId: number) => {
-		deleteWorkout(workoutId).then((response) => {
-			if (response.status == 200) {
-				setWorkoutDataState((prev) =>
-					prev.filter((workout) => workout.workoutId != workoutId)
-				);
-			} else {
-				console.log(`Workout ${workoutId} could not found!`);
-			}
-		});
-	};
-	const updateWorkoutIfFavourite = (id: number) => {
-		changeIsFavourite(userId!, id).then((response) => {
-			if (response.status == 200) {
-				setWorkoutDataState((prev) => {
-					return prev.map((workout) => {
-						if (workout.workoutId == id) {
-							return {
-								...workout,
-								isFavourite: !workout.isFavourite,
-							};
-						} else {
-							return workout;
-						}
-					});
-				});
-			} else {
-				console.log('isFavourite could not been updated');
-			}
-		});
-	};
-	const selectWorkout = (id: number) => {
-		setSelectedWorkout(
-			workoutDataState.find((workoutData) => workoutData.workoutId == id)!
-		);
-	};
-
-	useEffect(() => {
-		const getWorkoutsOfUser = (): Promise<AxiosResponse> => {
-			return getWorkoutsByUserId(userId!);
-		};
-		getWorkoutsOfUser()
-			.then((response) => {
-				console.log(response.data);
-				setWorkoutDataState(response.data);
-			})
-			.catch((e) => console.log(e));
-	}, []);
-
-	const workoutsElement = workoutDataState.map((workout) => (
+	const workoutsElement = workouts.map((workout) => (
 		<Workout
-			key={workout.workoutId}
-			id={workout.workoutId}
+			key={workout.id}
+			id={workout.id}
 			workoutName={workout.workoutName}
 			isFavourite={workout.isFavourite}
-			updateWorkoutIfFavourite={updateWorkoutIfFavourite}
-			selectWorkout={selectWorkout}
-			selectedWorkoutId={selectedWorkoutId}
-			setSelectedWorkoutId={setSelectedWorkoutId}
-			updateWorkoudDataStateOnDeleteWorkout={
-				updateWorkoudDataStateOnDeleteWorkout
-			}
+			isSelected={workout.isSelected}
 		/>
 	));
 
 	const handleShowCreateWorkoutModal = () => {
-		setShowCreateWorkoutModal(true);
+		setShowCreateWorkoutModal((prevState) => !prevState);
 	};
 
-	const handleCloseCreateWorkoutModal = () => {
-		setShowCreateWorkoutModal(false);
-	};
+	const handleCloseCreateWorkoutModal = () => {};
 
 	return (
 		<div className='workout-page d-flex'>
@@ -118,16 +47,13 @@ const WorkoutsPage = () => {
 				</div>
 			</div>
 			<div className='workout-details-field bg-secondary'>
-				{selectedWorkout && (
-					<WorkoutDetails workoutName={selectedWorkout.workoutName} />
-				)}
+				{/*{selectedWorkout && (*/}
+				{/*	<WorkoutDetails workoutName={selectedWorkout.workoutName} />*/}
+				{/*)}*/}
 			</div>
 			<CreateWorkoutModal
 				show={showCreateWorkoutModal}
-				handleClose={handleCloseCreateWorkoutModal}
-				updateWorkoutDataStateOnCreateFormSubmit={
-					updateWorkoutDataStateOnCreateFormSubmit
-				}
+				handleClose={handleShowCreateWorkoutModal}
 			/>
 		</div>
 	);

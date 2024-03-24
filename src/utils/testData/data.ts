@@ -4,13 +4,15 @@ export const workoutData = [
 		workoutName: 'workout 1',
 		workoutCategory: 'pull',
 		isFavourite: false,
+		isSelected: false,
 		exerciseNumber: 3,
 	},
 	{
 		id: 2,
 		workoutName: 'workout 2',
 		workoutCategory: 'push',
-		isFavourite: true,
+		isFavourite: false,
+		isSelected: false,
 		exerciseNumber: 4,
 	},
 	{
@@ -18,6 +20,7 @@ export const workoutData = [
 		workoutName: 'workout 3',
 		workoutCategory: 'pull',
 		isFavourite: true,
+		isSelected: false,
 		exerciseNumber: 3,
 	},
 	{
@@ -25,6 +28,7 @@ export const workoutData = [
 		workoutName: 'workout 4',
 		workoutCategory: 'pull',
 		isFavourite: false,
+		isSelected: false,
 		exerciseNumber: 3,
 	},
 	{
@@ -32,6 +36,7 @@ export const workoutData = [
 		workoutName: 'workout 5',
 		workoutCategory: 'pull',
 		isFavourite: true,
+		isSelected: false,
 		exerciseNumber: 3,
 	},
 	{
@@ -39,6 +44,7 @@ export const workoutData = [
 		workoutName: 'workout 7',
 		workoutCategory: 'pull',
 		isFavourite: true,
+		isSelected: false,
 		exerciseNumber: 3,
 	},
 	{
@@ -46,6 +52,7 @@ export const workoutData = [
 		workoutName: 'workout 8',
 		workoutCategory: 'pull',
 		isFavourite: false,
+		isSelected: false,
 		exerciseNumber: 3,
 	},
 ];

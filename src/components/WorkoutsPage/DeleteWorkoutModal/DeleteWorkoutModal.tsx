@@ -2,22 +2,21 @@ import './deleteWorkoutModal.scss';
 import { Button, Card, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { getUserId } from '../../../features/auth/authSlice.ts';
+import { useAppDispatch } from '../../../app/hooks.ts';
+import { deleteWorkout } from '../../../features/workout/workoutSlice.ts';
 
 interface DeleteWorkoutModalProps {
 	id: number;
 	show: boolean;
 	handleClose: () => void;
-	updateWorkoutDataStateOnDeleteWorkout: (id: number) => void;
 }
 
 const DeleteWorkoutModal = ({
 	id,
 	show,
 	handleClose,
-	updateWorkoutDataStateOnDeleteWorkout,
 }: DeleteWorkoutModalProps) => {
-	const userId = useSelector(getUserId);
-	console.log(userId);
+	const dispatch = useAppDispatch();
 
 	return (
 		<>
@@ -34,12 +33,7 @@ const DeleteWorkoutModal = ({
 						Are you sure, you want to delete the workout?
 					</Card.Body>
 					<Card.Footer className='d-flex justify-content-end gap-3'>
-						<Button
-							variant='grey'
-							onClick={() => {
-								handleClose();
-							}}
-						>
+						<Button variant='grey' onClick={handleClose}>
 							Close
 						</Button>
 						<Button
@@ -47,7 +41,7 @@ const DeleteWorkoutModal = ({
 							type='submit'
 							variant='secondary'
 							onClick={() => {
-								updateWorkoutDataStateOnDeleteWorkout(id);
+								dispatch(deleteWorkout({ id }));
 							}}
 						>
 							Delete

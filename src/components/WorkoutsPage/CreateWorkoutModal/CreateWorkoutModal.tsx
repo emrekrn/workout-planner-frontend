@@ -2,21 +2,18 @@ import { FormEvent } from 'react';
 import './createWorkoutModal.scss';
 import { Modal, Button, Card } from 'react-bootstrap';
 import Input from '../../ui/Input';
+import workout from '../Workout/Workout.tsx';
+import deleteWorkoutModal from '../DeleteWorkoutModal/DeleteWorkoutModal.tsx';
+import { useDispatch } from 'react-redux';
+import { createWorkout } from '../../../features/workout/workoutSlice.ts';
 
 interface CreateWorkoutModalProps {
 	show: boolean;
 	handleClose: () => void;
-	updateWorkoutDataStateOnCreateFormSubmit: (
-		workoutName: string,
-		workoutCategory: string
-	) => void;
 }
 
-const CreateWorkoutModal = ({
-	show,
-	handleClose,
-	updateWorkoutDataStateOnCreateFormSubmit,
-}: CreateWorkoutModalProps) => {
+const CreateWorkoutModal = ({ show, handleClose }: CreateWorkoutModalProps) => {
+	const dispatch = useDispatch();
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const workoutName = e.currentTarget.elements.namedItem(
@@ -25,10 +22,7 @@ const CreateWorkoutModal = ({
 		const workoutCategory = e.currentTarget.elements.namedItem(
 			'workoutCategory'
 		) as HTMLInputElement;
-		updateWorkoutDataStateOnCreateFormSubmit(
-			workoutName.value,
-			workoutCategory.value
-		);
+		dispatch(createWorkout({ workoutName: workoutName.value }));
 	};
 	return (
 		<>

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './workout.scss';
 import workoutImg from '../../../assets/images/workout-placeholder.jpg';
 import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-icons';
@@ -9,55 +8,51 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DeleteWorkoutModal from '../DeleteWorkoutModal/DeleteWorkoutModal';
+import {
+	deleteWorkout,
+	setWorkoutFavourite,
+	setWorkoutSelected,
+} from '../../../features/workout/workoutSlice.ts';
+import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../../app/hooks.ts';
+import { useState } from 'react';
+import EditWorkoutModal from '../EditWorkoutModal/EditWorkoutModal.tsx';
 
 interface WorkoutProps {
 	id: number;
 	workoutName: string;
 	isFavourite: boolean;
-	updateWorkoutIfFavourite: (id: number) => void;
-	selectWorkout: (id: number) => void;
-	selectedWorkoutId: number;
-	setSelectedWorkoutId: React.Dispatch<React.SetStateAction<number>>;
-	updateWorkoudDataStateOnDeleteWorkout: (id: number) => void;
+	isSelected: boolean;
 }
 
 const Workout = ({
 	id,
 	workoutName,
 	isFavourite,
-	updateWorkoutIfFavourite,
-	selectWorkout,
-	selectedWorkoutId,
-	setSelectedWorkoutId,
-	updateWorkoudDataStateOnDeleteWorkout,
+	isSelected,
 }: WorkoutProps) => {
+	const dispatch = useAppDispatch();
 	const [showDeleteWorkoutModal, setShowDeleteWorkoutModal] = useState(false);
-
-	const handleShowDeleteWorkoutModal = () => {
-		setShowDeleteWorkoutModal(true);
-	};
-
-	const handleCloseDeleteWorkoutModal = () => {
-		setShowDeleteWorkoutModal(false);
-	};
+	const [showEditWorkoutModal, setShowEditWorkoutModal] = useState(false);
 
 	return (
 		<>
 			<DeleteWorkoutModal
 				id={id}
 				show={showDeleteWorkoutModal}
-				handleClose={handleCloseDeleteWorkoutModal}
-				updateWorkoutDataStateOnDeleteWorkout={
-					updateWorkoudDataStateOnDeleteWorkout
-				}
+				handleClose={() => setShowDeleteWorkoutModal((prevState) => !prevState)}
+			/>
+			<EditWorkoutModal
+				id={id}
+				show={showEditWorkoutModal}
+				handleClose={() => setShowEditWorkoutModal((prevState) => !prevState)}
 			/>
 			<div
-				className={`workout-card d-flex align-items-center gap-3 ${
-					selectedWorkoutId == id ? 'selected' : 'bg-secondary'
-				}`}
+				className={`workout-card d-flex align-items-center gap-3 
+				${isSelected ? 'selected' : 'bg-secondary'}
+				`}
 				onClick={() => {
-					selectWorkout(id);
-					setSelectedWorkoutId(id);
+					dispatch(setWorkoutSelected({ id }));
 				}}
 			>
 				<div className='workout-image-container p-1'>
@@ -78,7 +73,7 @@ const Workout = ({
 					<div className='workout-btn-field'>
 						<div
 							className='favourite-btn-div bg-primary d-flex align-items-center justify-content-center'
-							onClick={() => updateWorkoutIfFavourite(id)}
+							onClick={() => dispatch(setWorkoutFavourite({ id }))}
 						>
 							{isFavourite ? (
 								<FontAwesomeIcon
@@ -94,12 +89,16 @@ const Workout = ({
 						</div>
 						<div
 							className='favourite-btn-div bg-danger d-flex align-items-center justify-content-center'
-							onClick={() => handleShowDeleteWorkoutModal()}
-							// onClick={() => updateWorkoudDataStateOnDeleteWorkout(id)}
+							onClick={() =>
+								setShowDeleteWorkoutModal((prevState) => !prevState)
+							}
 						>
 							<FontAwesomeIcon className='text-white' icon={faX} />
 						</div>
-						<div className='favourite-btn-div bg-primary d-flex align-items-center justify-content-center'>
+						<div
+							className='favourite-btn-div bg-primary d-flex align-items-center justify-content-center'
+							onClick={() => setShowEditWorkoutModal((prevState) => !prevState)}
+						>
 							<FontAwesomeIcon className='text-white' icon={faPen} />
 						</div>
 					</div>

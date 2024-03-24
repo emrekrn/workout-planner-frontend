@@ -1,7 +1,10 @@
 export interface WorkoutData {
-	workoutId: number;
+	id: number;
 	workoutName: string;
+	workoutCategory: string;
 	isFavourite: boolean;
+	isSelected: boolean;
+	exerciseNumber: number;
 }
 
 export interface CreateWorkoutRequest {

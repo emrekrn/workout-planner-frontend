@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import '../../assets/style/desktopNav.scss';
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
