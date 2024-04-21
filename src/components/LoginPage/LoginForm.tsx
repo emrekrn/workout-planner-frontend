@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import { useAppDispatch } from '../../app/hooks.ts';
 import { logIn } from '../../features/auth/authSlice.ts';
 import { FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 	const dispatch = useAppDispatch();
@@ -27,9 +28,9 @@ const Login = () => {
 			<h1 className='text-white'>Log in</h1>
 			<p className='text-grey'>
 				Don't have an account yet?
-				<a className='create-account-link mx-2' href='/register'>
+				<Link className='create-account-link mx-2' to='/register'>
 					Create an account
-				</a>
+				</Link>
 			</p>
 			<form onSubmit={(e) => handleSubmit(e)} noValidate>
 				<Input labelText='Email' id='email' inputType='text' col='col-12' />

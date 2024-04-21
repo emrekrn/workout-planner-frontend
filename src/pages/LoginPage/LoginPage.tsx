@@ -8,7 +8,7 @@ import { getUserToken } from '../../features/auth/authSlice.ts';
 const LoginPage = () => {
 	const userToken = useSelector(getUserToken);
 	if (userToken) {
-		return <Navigate to='/' replace />;
+		return <Navigate to='/my-workouts' replace />;
 	}
 
 	return (

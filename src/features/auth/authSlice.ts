@@ -23,10 +23,15 @@ export const authSlice = createSlice({
 			state.userToken = userToken;
 			state.status = status;
 		},
+		logOut: (state, action) => {
+			state.userId = 0;
+			state.userToken = 0;
+			state.status = 'unauthenticated';
+		},
 	},
 });
 
-export const { logIn } = authSlice.actions;
+export const { logIn, logOut } = authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const getUserId = (state: RootState) => state.userAuth.userId;

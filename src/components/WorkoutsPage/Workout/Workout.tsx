@@ -20,6 +20,7 @@ import { useState } from 'react';
 import EditModal from '../../ui/EditModal/EditModal.tsx';
 import { Action } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store.ts';
+import EditWorkoutModal from '../../ui/EditModal/EditWorkoutModal.tsx';
 
 interface WorkoutProps {
 	id: number;
@@ -50,15 +51,10 @@ const Workout = ({
 				handleClose={() => setShowDeleteWorkoutModal((prevState) => !prevState)}
 				dispatchFunction={() => deleteWorkout({ id }) as Action}
 			/>
-			<EditModal
+			<EditWorkoutModal
 				id={id}
-				inputName='workoutName'
-				data={(state: RootState, id: number) => getWorkoutById(state, id)}
 				show={showEditWorkoutModal}
 				handleClose={() => setShowEditWorkoutModal((prevState) => !prevState)}
-				dispatchFunction={(workoutName: string) =>
-					editWorkout({ id, workoutName: workoutName }) as Action
-				}
 			/>
 			<div
 				className={`workout-card d-flex align-items-center gap-3 

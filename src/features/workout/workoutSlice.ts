@@ -3,8 +3,6 @@ import { WorkoutData } from '../../model/WorkoutDataModel.ts';
 import { RootState } from '../../app/store.ts';
 import { workoutData } from '../../utils/testData/data.ts';
 import { v4 as uuidv4 } from 'uuid';
-import { logIn } from '../auth/authSlice.ts';
-import workout from '../../components/WorkoutsPage/Workout/Workout.tsx';
 
 export interface WorkoutsState {
 	workouts: WorkoutData[];
